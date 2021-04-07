@@ -13,6 +13,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Initialize client
+    var apiKey = FlutterConfig.get('MYANIMELIST_TOKEN');
+    var client = Client(apiKey != null ? apiKey : '');
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -27,13 +31,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page', client: client,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.client}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -45,6 +49,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final Client client;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -52,16 +57,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  // Initialize client
-  var client = Client(FlutterConfig.get('MYANIMELIST_TOKEN'));
 
   void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+    setState(() async {
       _counter++;
     });
   }

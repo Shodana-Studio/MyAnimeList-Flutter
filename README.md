@@ -1,4 +1,4 @@
-# myanimelist_flutter
+# shodana-mal
 
 A new Flutter application for MyAnimeList.
 

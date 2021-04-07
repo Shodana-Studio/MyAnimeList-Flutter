@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
+import 'package:myanimelist_api/myanimelist_api.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
+  await FlutterConfig.loadEnvVariables();
+
   runApp(MyApp());
 }
 
@@ -47,6 +52,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  // Initialize client
+  var client = Client(FlutterConfig.get('MYANIMELIST_TOKEN'));
 
   void _incrementCounter() {
     setState(() {

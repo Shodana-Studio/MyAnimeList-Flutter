@@ -44,3 +44,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# API Keys
+# Put your MAL Api key in this file
+#   API_URL=https://api.myanimelist.net/v2
+#   MYANIMELIST_TOKEN=aaaaaaaaaaaaaaaaaa
+.env

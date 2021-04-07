@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myanimelist_api/myanimelist_api.dart';
-import 'package:shodana_mal/services/secrets/secret.dart';
-import 'package:shodana_mal/services/secrets/secret_loader.dart';
 
-void main() async {
-  // Initialize client
-  Secret secret = await SecretLoader(secretPath: "secrets.json").load();
-  var client = Client(secret.apiKey);
+void main() {
   runApp(MyApp());
 }
 

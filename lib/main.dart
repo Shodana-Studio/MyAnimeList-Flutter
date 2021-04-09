@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:myanimelist_api/myanimelist_api.dart';
+import 'package:shodana_mal/providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   await FlutterConfig.loadEnvVariables();
 
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +24,49 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page', client: client,),
+      home: Home(
+        title: 'Riverpod Demo',
+        client: client,
+      ),
+    );
+  }
+}
+
+class Home extends HookWidget {
+  Home({Key key, this.title, this.client}) : super(key: key);
+
+  final String title;
+  final Client client;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = useProvider(textProvider);
+    final future = useProvider(futureProvider);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(text),
+            SizedBox(height: 20),
+            future.when(
+              data: (config) {
+                return Text("Future Provider: " + config.toString());
+              },
+              loading: () => CircularProgressIndicator(),
+              error: (err, stack) => Text("Error: " + err),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+      ),
     );
   }
 }

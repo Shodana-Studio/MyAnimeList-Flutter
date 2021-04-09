@@ -42,6 +42,11 @@ class Home extends HookWidget {
   Widget build(BuildContext context) {
     final text = useProvider(textProvider);
     final future = useProvider(futureProvider);
+    final stream = useProvider(streamProvider);
+    final stateP = useProvider(stateProvider);
+
+    final int stateNotifierState = useProvider(stateNotifierProvider.state);
+    final changeNotifier = useProvider(changeNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -58,14 +63,63 @@ class Home extends HookWidget {
               },
               loading: () => CircularProgressIndicator(),
               error: (err, stack) => Text("Error: " + err),
-            )
+            ),
+            SizedBox(height: 20),
+            stream.when(
+              data: (config) {
+                return Text("Stream Provider: " + config.toString());
+              },
+              loading: () => CircularProgressIndicator(),
+              error: (err, stack) => Text("Error: " + err),
+            ),
+            SizedBox(height: 20),
+            Text("State Provider: " + stateP.state.toString()),
+            SizedBox(height: 20),
+            Text("StateNotifier Provider: " + stateNotifierState.toString()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    context.read(stateNotifierProvider).add();
+                  }, 
+                  child: Text("add"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read(stateNotifierProvider).subtract();
+                  },
+                  child: Text("subtract")
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text("ChangeNotifier Provider: " + changeNotifier.number.toString()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    changeNotifier.add();
+                  }, 
+                  child: Text("add"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    changeNotifier.subtract();
+                  },
+                  child: Text("subtract")
+                ),
+              ],
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+            stateP.state++;
         },
+        child: Icon(Icons.add),
       ),
     );
   }

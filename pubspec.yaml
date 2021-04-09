@@ -33,6 +33,7 @@ dependencies:
   beamer: ^0.11.2
   flutter_hooks: ^0.16.0
   hooks_riverpod: ^0.12.4
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:myanimelist_api/myanimelist_api.dart';
 
 final textProvider = Provider<String>((ref) => "Hello");
 
@@ -55,3 +56,6 @@ class ChangeCount extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+
